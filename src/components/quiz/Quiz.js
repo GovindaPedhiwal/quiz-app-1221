@@ -6,6 +6,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { QuizContext } from '../../context/QuizContextProvider';
 import { Utility } from '../../helper/utility';
 import Loader from '../loader/Loader';
+import { ApiConfig } from '../../config/api-config';
 
 const Quiz = () => {
  const [questions, setQuestions] = useState([])
@@ -19,11 +20,16 @@ const Quiz = () => {
 
   async function getQuestions() {
     setIsLoading(true)
-    let response = await fetch('https://6510087f3ce5d181df5cdb30.mockapi.io/api/quiz')
-    let resp = await response.json()
-    if(resp?.length) {
-      setQuestions(resp[0]?.questions)
-      addTotalQuestions(resp[0]?.totalQuestions)
+    try {
+      let response = await fetch('https://6510087f3ce5d181df5cdb30.mockapi.io/api' + ApiConfig.GET_QUESTIONS)
+      let resp = await response.json()
+      if(resp?.length) {
+        setQuestions(resp[0]?.questions)
+        addTotalQuestions(resp[0]?.totalQuestions)
+      }
+    } catch(error) {
+      console.log(error);
+    } finally {
       setIsLoading(false)
     }
   }
@@ -65,7 +71,11 @@ const Quiz = () => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   };
-  await fetch('https://6510087f3ce5d181df5cdb30.mockapi.io/api/question',requestOptions).then(res => res.json())
+  try {
+    await fetch('https://6510087f3ce5d181df5cdb30.mockapi.io/api' + ApiConfig.UPDATE_QUESTION_INFO,requestOptions).then(res => res.json())
+  } catch(error) {
+    console.log(error);
+  }
  }
 //  when clicking on Next it will move the question from first to second and so on
  const onNext = () => {

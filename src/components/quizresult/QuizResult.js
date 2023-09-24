@@ -4,6 +4,7 @@ import { QuizContext } from '../../context/QuizContextProvider'
 import './QuizResult.css'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import "react-circular-progressbar/dist/styles.css";
+import { ApiConfig } from '../../config/api-config'
 const QuizResult = () => {
     const {results, updateCorrectAnswers, updateWrongAnswers, addTotalQuestions} = useContext(QuizContext)
     const [percentage, setPercentage] = useState(0)
@@ -35,7 +36,11 @@ const QuizResult = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
           };
-          await fetch('https://65102ab43ce5d181df5cfac7.mockapi.io/api/submitQuizResult',requestOptions).then(res => res.json())
+          try {
+              await fetch('https://65102ab43ce5d181df5cfac7.mockapi.io/api' + ApiConfig.SUBMIT_QUIZ_RESULTS,requestOptions).then(res => res.json())
+          } catch(error) {
+              console.log(error);
+          }
         
     }
     useEffect(() => {
