@@ -8,7 +8,7 @@ Please use npm start to start the server.
 
 The App has been deployed in live please open the below link
 
-https://quiz-app-1221.netlify.app/quiz
+https://quiz-app-1221.netlify.app
 
 Below is the demo of the product
 
